@@ -8,6 +8,7 @@ const Part = (props) => {
     </p>
   );
 };
+
 const Content = (props) => {
   let parts = props.parts
   return (
@@ -20,6 +21,7 @@ const Content = (props) => {
       </div>
   );
 };
+
 const Total = (props) => {
   const {parts} = props
   let exercises = parts.map(part => part.exercises);
