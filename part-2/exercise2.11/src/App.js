@@ -1,3 +1,5 @@
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 import Persons from './components/Persons';
 import Form from './components/Form';
 import Filter from './components/Filter'
@@ -7,6 +9,15 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [find, setFind] = useState('');
+
+  useEffect(() => {
+    console.log('effect')
+    axios.get('http://localhost:3001/persons').then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }, [])
+
 
   const HandleNameChange = (event) => {
     console.log(event.target.value);
@@ -38,7 +49,7 @@ const App = () => {
     console.log(persons);
   };
   const match = (input, person) => {
-    if (input.length == 0){
+    if (input.length === 0){
       return true
     } 
     if (input.length > person.length){
@@ -46,7 +57,7 @@ const App = () => {
     }
     let range = input.length
     for(let i = 0; i < range; i++){
-      if (input[i].toLowerCase() != person[i].toLowerCase()){
+      if (input[i].toLowerCase() !== person[i].toLowerCase()){
         return false
       }
     }
