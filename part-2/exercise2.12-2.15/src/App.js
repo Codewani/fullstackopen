@@ -19,11 +19,12 @@ const App = () => {
 
   const removePerson = id => {
     phoneService.remove(id).then(
-	deletedPerson => {
-	    let newPersons = persons.filter((person) => person.id != deletedPerson.id)
+	  () => {
+	    let newPersons = persons.filter((person) => person.id !== id)
+	    console.log(newPersons)
 	    setPersons(newPersons)
-    }).catch(alert("Contact not found"))
-  }
+    }).catch(error => alert("Contact not found"))
+}
   const HandleNameChange = (event) => {
     console.log(event.target.value);
     setNewName(event.target.value);
@@ -44,7 +45,7 @@ const App = () => {
       return;
     }
     let newPerson = {
-      id: persons.length + 1,
+      id: String(persons.length + 1),
       name: newName,
       number: newNumber,
     };
