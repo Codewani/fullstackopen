@@ -25,6 +25,15 @@ const App = () => {
 	    setPersons(newPersons)
     }).catch(error => alert("Contact not found"))
 }
+  const changeDetails = (changeContact) =>{
+    let changedContact = {...changeContact, number: newNumber}
+    let newPersons = persons.filter((person) => person.id !== changedContact.id)
+    phoneService.update(changedContact.id, changedContact).then(
+      contact => setPersons(newPersons.concat(contact))
+    )
+    setNewName('')
+    setNewNumber('')
+  }
   const HandleNameChange = (event) => {
     console.log(event.target.value);
     setNewName(event.target.value);
@@ -40,8 +49,14 @@ const App = () => {
 
   const addContact = (event) => {
     event.preventDefault()
-    if (names.includes(newName)){
-      alert(newName + ' is already in the phonebook');
+    let findPerson = persons.filter(person => person.name === newName)
+    if (findPerson.length === 1){
+      if (findPerson[0].number != newNumber) {
+        return changeDetails(findPerson[0])
+      }
+      else{
+        alert(newName + ' is already in the phonebook');
+      }
       return;
     }
     let newPerson = {
