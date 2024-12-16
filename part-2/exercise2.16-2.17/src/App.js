@@ -109,13 +109,13 @@ const App = () => {
 
 
   return (
-    <div>
-	<h2>Phonebook</h2>
-	<Notfification message={message} />
-	<Filter find = {find} HandleFindChange = {HandleFindChange}/> 
-	<Form addContact = {addContact} newName = {newName} HandleNameChange = {HandleNameChange} newNumber = {newNumber} HandleNumberChange = {HandleNumberChange} />
-	<Persons persons={personsToShow} removePerson = {removePerson}/>
-    </div>
+	<div>
+		<h2>Phonebook</h2>
+		<Notfification message={message} />
+		<Filter find = {find} HandleFindChange = {HandleFindChange}/> 
+		<Form addContact = {addContact} newName = {newName} HandleNameChange = {HandleNameChange} newNumber = {newNumber} HandleNumberChange = {HandleNumberChange} />
+		<Persons persons={personsToShow} removePerson = {removePerson}/>
+	</div>
   );
 };
 
