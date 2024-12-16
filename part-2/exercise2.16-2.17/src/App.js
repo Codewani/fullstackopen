@@ -3,12 +3,14 @@ import Persons from './components/Persons'
 import Form from './components/Form'
 import Filter from './components/Filter'
 import phoneService from './services/phonebook'
+import Notfification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [find, setFind] = useState('');
+  const [message, setMessage] = useState('message')
 
   useEffect(() => {
     console.log('effect')
@@ -17,13 +19,26 @@ const App = () => {
       })
   }, [])
 
+  const displayMessage = (message) => {
+    setMessage(`${message}`)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }
+
   const removePerson = id => {
     phoneService.remove(id).then(
 	  () => {
 	    let newPersons = persons.filter((person) => person.id !== id)
 	    console.log(newPersons)
+      displayMessage(`This contact was succesfully removed`)
 	    setPersons(newPersons)
-    }).catch(error => alert("Contact not found"))
+    }).catch(error => {
+      let newPersons = persons.filter((person) => person.id !== id)
+      setPersons(newPersons) 
+      displayMessage(`This contact was already removed`)
+    })
+
 }
   const changeDetails = (changeContact) =>{
     let changedContact = {...changeContact, number: newNumber}
@@ -33,6 +48,7 @@ const App = () => {
     )
     setNewName('')
     setNewNumber('')
+    displayMessage(`${changeContact.name}'s phone number was changed`)
   }
   const HandleNameChange = (event) => {
     console.log(event.target.value);
@@ -55,7 +71,7 @@ const App = () => {
         return changeDetails(findPerson[0])
       }
       else{
-        alert(newName + ' is already in the phonebook');
+        displayMessage(`${newPerson.name} is already in the phone book`)
       }
       return;
     }
@@ -68,6 +84,7 @@ const App = () => {
       setPersons(persons.concat(newPerson))})	   
     setNewName('')
     setNewNumber('')
+    displayMessage(`${newPerson.name} was succesfully added`)
     console.log(persons);
   };
   const match = (input, person) => {
@@ -93,10 +110,11 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <Filter find = {find} HandleFindChange = {HandleFindChange}/> 
-      <Form addContact = {addContact} newName = {newName} HandleNameChange = {HandleNameChange} newNumber = {newNumber} HandleNumberChange = {HandleNumberChange} />
-      <Persons persons={personsToShow} removePerson = {removePerson}/>
+	    <h2>Phonebook</h2>
+      <Notfification message={message} />
+	    <Filter find = {find} HandleFindChange = {HandleFindChange}/> 
+	    <Form addContact = {addContact} newName = {newName} HandleNameChange = {HandleNameChange} newNumber = {newNumber} HandleNumberChange = {HandleNumberChange} />
+	    <Persons persons={personsToShow} removePerson = {removePerson}/>
     </div>
   );
 };
