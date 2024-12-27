@@ -1,0 +1,7 @@
+POST https://phonebook-icy-tree-3142.fly.dev/api/phonebook
+Content-Type: application/json
+
+{
+    "name": "Kondwani",
+    "number": "470-5329821"
+}
